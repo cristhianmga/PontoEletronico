@@ -1,0 +1,30 @@
+﻿@model PontoEletronico.Models.DTO.EmpresaDto
+
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<h2>Detail</h2>
+
+<div>
+    <h4>Empresa</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RazaoSocial)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RazaoSocial)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cnpj)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cnpj)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
