@@ -12,8 +12,10 @@ namespace PontoEletronico.Models
         [Required]
         public int Id { get; set; }
         [Required]
+        [Display(Name = "Razão Social")]
         public string RazaoSocial { get; set; }
         [Required]
+        [Display(Name = "CNPJ")]
         public string Cnpj { get; set; }
     }
 }

@@ -3,6 +3,23 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Bem-Vindo</h1>
+</div>
+
+
+<div class="card-deck">
+    <div class="card">
+        <i class="material-icons" style="font-size:48px;text-align:center">business</i>
+        <div class="card-body text-center">
+            <h5 class="card-title">Empresa</h5>
+            <a class="btn btn-primary" asp-controller="Empresa" asp-action="Index">Entrar</a>
+        </div>
+    </div>
+    <div class="card">
+        <i class="material-icons" style="font-size:48px;text-align:center">people_alt</i>
+        <div class="card-body text-center">
+            <h5 class="card-title">Funcionarios</h5>
+            <a class="btn btn-primary" asp-area="" asp-controller="Empresa" asp-action="Index">Entrar</a>
+        </div>
+    </div>
 </div>

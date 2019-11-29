@@ -1,25 +1,25 @@
 ﻿@model PontoEletronico.Models.DTO.EmpresaDto
 
 @{
-    ViewData["Title"] = "Detail";
+    ViewData["Title"] = "Details";
 }
 
-<h2>Detail</h2>
+<h1>Details</h1>
 
 <div>
     <h4>Empresa</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
+    <dl class="row">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.RazaoSocial)
         </dt>
-        <dd>
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.RazaoSocial)
         </dd>
-        <dt>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Cnpj)
         </dt>
-        <dd>
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Cnpj)
         </dd>
     </dl>
