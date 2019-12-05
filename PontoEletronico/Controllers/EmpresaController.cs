@@ -63,6 +63,15 @@ namespace PontoEletronico.Controllers
             var empresa = _mapper.Map<EmpresaDto>(query);
             return View(empresa);
         }
+        [HttpGet]
+        [Authorize]
+        public IActionResult MinhaEmpresa(int id)
+        {
+            var empresa = servico.Obter<Empresa>(id,new string[] {"Funcionario"});
+            var minhaEmpresa = _mapper.Map<MinhaEmpresaDto>(empresa);
+
+            return View("MinhaEmpresa",minhaEmpresa);
+        }
         #endregion
 
         [HttpPost]
