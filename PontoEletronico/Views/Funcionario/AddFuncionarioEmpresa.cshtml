@@ -1,8 +1,14 @@
-﻿
+﻿@model PontoEletronico.Models.DTO.FuncionarioDto
 @{
     ViewData["Title"] = "AddFuncionarioEmpresa";
 }
 
-<h1>AddFuncionarioEmpresa</h1>
+<h1>Adicionar Novo Funcionário</h1>
+
+<div class="row">
+    <input asp-for="Cpf" />
+    <button class="btn btn-secondary">Pesquisar</button>
+</div>
+
 
  

@@ -17,7 +17,7 @@ namespace PontoEletronico.Controllers
         [Route("funcionario-empresa")]
         public IActionResult AddFuncionarioEmpresa(int EmpresaId)
         {
-
+            ViewBag.CpfEncontrado = false;
             return View();
         }
     }
