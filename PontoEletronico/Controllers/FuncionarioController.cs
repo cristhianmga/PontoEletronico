@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PontoEletronico.Data;
 using PontoEletronico.Models;
+using PontoEletronico.Models.DTO;
 using PontoEletronico.Servico.Base;
 
 namespace PontoEletronico.Controllers
@@ -29,33 +30,53 @@ namespace PontoEletronico.Controllers
         [Route("funcionario-empresa")]
         public IActionResult AddFuncionarioEmpresa(int EmpresaId)
         {
-            ViewBag.CpfEncontrado = false;
-            return View();
-        }
-        [HttpGet]
-        public IActionResult AddFuncionarioNaoCadastrado(string cpf)
-        {
-            return View();
+            return View(new CpfEmpresaIdDto{EmpresaId = EmpresaId});
         }
 
         [HttpPost]
-        public IActionResult AddFuncionarioEmpresa(string cpf)
+        [Route("funcionario-empresa")]
+        public IActionResult AddFuncionarioEmpresa(CpfEmpresaIdDto dto)
         {
-            var funcionario = servico.ObterTodos<Funcionario>().Where(x => x.Cpf == cpf);
-            if (funcionario.Count() > 1)
+            var funcionario = servico.ObterTodos<Funcionario>().Where(x => x.Cpf == dto.Cpf);
+            if (funcionario.Count() == 0)
             {
-                return View("AddFuncionarioNaoCadastrado");
+                return View("AddFuncionarioNaoCadastrado",new {EmpresaId = dto.EmpresaId,Cpf = dto.Cpf });
             }
             else
             {
-                return View("AddFuncionarioCadastrado");
+                return View("AddFuncionarioCadastrado",funcionario);
             }
         }
 
+
+        [HttpGet]
+        public IActionResult AddFuncionarioNaoCadastrado(int EmpresaId,string cpf)
+        {
+            var empresa = servico.Obter<Empresa>(EmpresaId);
+            Funcionario funcionario = new Funcionario
+            {
+                Empresa = empresa,
+                Cpf = cpf
+            };
+            return View(funcionario);
+        }
+
         [HttpPost]
-        public IActionResult AddFuncionarioNaoCadastrado()
+        public IActionResult AddFuncionarioNaoCadastrado(Funcionario funcionario)
         {
             return View();
         }
+
+        [HttpGet]
+        public IActionResult AddFuncionarioCadastrado(Funcionario funcionario)
+        {
+            return View(funcionario);
+        }
+
+        //[HttpPost]
+        //public IActionResult AddFuncionarioCadastrado(Funcionario funcionario)
+        //{
+        //    return View();
+        //}
     }
 }
