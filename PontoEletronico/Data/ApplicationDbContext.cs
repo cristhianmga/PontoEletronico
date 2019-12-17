@@ -16,5 +16,7 @@ namespace PontoEletronico.Data
 
         public DbSet<Empresa> Empresa { get; set; }
         public DbSet<Funcionario> Funcionario { get; set; }
+        public DbSet<RegistroPonto> RegistroPonto { get; set; }
+        public DbSet<DadosContratacaoFuncionario> DadosContratacaoFuncionarios { get; set; }
     }
 }

@@ -14,6 +14,7 @@ namespace PontoEletronico.Models.Mapper
             CreateMap<Empresa, EmpresaDto>().ReverseMap();
             CreateMap<Funcionario, FuncionarioDto>().ReverseMap();
             CreateMap<Empresa, MinhaEmpresaDto>().ReverseMap();
+            CreateMap<RegistroPonto, RegistroPontoDto>().ReverseMap();
         }
     }
 }

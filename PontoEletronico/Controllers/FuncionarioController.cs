@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PontoEletronico.Data;
@@ -55,7 +52,7 @@ namespace PontoEletronico.Controllers
             var empresa = servico.Obter<Empresa>(EmpresaId);
             Funcionario funcionario = new Funcionario
             {
-                Empresa = empresa,
+                //Empresa = empresa,
                 Cpf = cpf
             };
             return View(funcionario);

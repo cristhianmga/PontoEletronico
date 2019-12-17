@@ -17,6 +17,5 @@ namespace PontoEletronico.Models
         [Required]
         [Display(Name = "CNPJ")]
         public string Cnpj { get; set; }
-        public IEnumerable<Funcionario> funcionarios { get; set; }
     }
 }

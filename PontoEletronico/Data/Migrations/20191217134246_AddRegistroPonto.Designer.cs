@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PontoEletronico.Data;
 
 namespace PontoEletronico.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20191217134246_AddRegistroPonto")]
+    partial class AddRegistroPonto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -219,41 +221,6 @@ namespace PontoEletronico.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("PontoEletronico.Models.DadosContratacaoFuncionario", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<TimeSpan>("CargaHoraria")
-                        .HasColumnType("time");
-
-                    b.Property<string>("Cargo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DataFim")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataInicio")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("EmpresaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FuncionarioId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmpresaId");
-
-                    b.HasIndex("FuncionarioId");
-
-                    b.ToTable("DadosContratacaoFuncionarios");
-                });
-
             modelBuilder.Entity("PontoEletronico.Models.Empresa", b =>
                 {
                     b.Property<int>("Id")
@@ -285,6 +252,9 @@ namespace PontoEletronico.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("EmpresaId")
+                        .HasColumnType("int");
+
                     b.Property<string>("IdentityUserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -294,6 +264,8 @@ namespace PontoEletronico.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmpresaId");
 
                     b.HasIndex("IdentityUserId");
 
@@ -307,7 +279,13 @@ namespace PontoEletronico.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("DadosContratacaoFuncionarioId")
+                    b.Property<TimeSpan>("CargaHoraria")
+                        .HasColumnType("time");
+
+                    b.Property<int>("EmpresaId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FuncionarioId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("HoraEntrada")
@@ -318,7 +296,9 @@ namespace PontoEletronico.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DadosContratacaoFuncionarioId");
+                    b.HasIndex("EmpresaId");
+
+                    b.HasIndex("FuncionarioId");
 
                     b.ToTable("RegistroPonto");
                 });
@@ -374,7 +354,20 @@ namespace PontoEletronico.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PontoEletronico.Models.DadosContratacaoFuncionario", b =>
+            modelBuilder.Entity("PontoEletronico.Models.Funcionario", b =>
+                {
+                    b.HasOne("PontoEletronico.Models.Empresa", "Empresa")
+                        .WithMany("funcionarios")
+                        .HasForeignKey("EmpresaId");
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
+                        .WithMany()
+                        .HasForeignKey("IdentityUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PontoEletronico.Models.RegistroPonto", b =>
                 {
                     b.HasOne("PontoEletronico.Models.Empresa", "Empresa")
                         .WithMany()
@@ -385,24 +378,6 @@ namespace PontoEletronico.Data.Migrations
                     b.HasOne("PontoEletronico.Models.Funcionario", "Funcionario")
                         .WithMany()
                         .HasForeignKey("FuncionarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PontoEletronico.Models.Funcionario", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
-                        .WithMany()
-                        .HasForeignKey("IdentityUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("PontoEletronico.Models.RegistroPonto", b =>
-                {
-                    b.HasOne("PontoEletronico.Models.DadosContratacaoFuncionario", "DadosContratacaoFuncionario")
-                        .WithMany()
-                        .HasForeignKey("DadosContratacaoFuncionarioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
