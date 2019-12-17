@@ -17,5 +17,6 @@ namespace PontoEletronico.Models
         [Required]
         [Display(Name = "CNPJ")]
         public string Cnpj { get; set; }
+        public List<DadosContratacaoFuncionario> DadosContratacaoFuncionarios { get; set; }
     }
 }

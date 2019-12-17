@@ -26,14 +26,14 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Funcionarios)
+        @foreach (var item in Model.DadosContratacaoFuncionarios.Distinct())
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Cpf)
+                    @Html.DisplayFor(modelItem => item.Funcionario.Cpf)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Nome)
+                    @Html.DisplayFor(modelItem => item.Funcionario.Nome)
                 </td>
                 <td>
                     <a class="btn" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

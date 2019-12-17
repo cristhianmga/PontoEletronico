@@ -10,8 +10,6 @@ namespace PontoEletronico.Models.DTO
         public int Id { get; set; }
         public DateTime HoraEntrada { get; set; }
         public DateTime HoraSaida { get; set; }
-        public TimeSpan CargaHoraria { get; set; }
-        public EmpresaDto Empresa { get; set; }
-        public FuncionarioDto Funcionario { get; set; }
+        public DadosContratacaoFuncionarioDto DadosContratacaoFuncionario { get; set; }
     }
 }

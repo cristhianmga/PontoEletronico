@@ -67,7 +67,7 @@ namespace PontoEletronico.Controllers
         [Authorize]
         public IActionResult MinhaEmpresa(int id)
         {
-            var empresa = servico.Obter<Empresa>(id,new string[] {"Funcionario"});
+            var empresa = servico.Obter<Empresa>(id,new string[] { "DadosContratacaoFuncionarios.Funcionario" });
             var minhaEmpresa = _mapper.Map<MinhaEmpresaDto>(empresa);
 
             return View("MinhaEmpresa",minhaEmpresa);

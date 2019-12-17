@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace PontoEletronico.Models.DTO
 {
     public class FuncionarioDto
@@ -6,6 +8,6 @@ namespace PontoEletronico.Models.DTO
         public int Id { get; set; }
         public string Nome { get; set; }
         public string Cpf { get; set; }
-        public EmpresaDto Empresa { get; set; }
+        public IEnumerable<DadosContratacaoFuncionarioDto> DadosContratacaoFuncionario { get; set; }
     }
 }

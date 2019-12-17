@@ -35,9 +35,10 @@ namespace PontoEletronico.Controllers
         public IActionResult AddFuncionarioEmpresa(CpfEmpresaIdDto dto)
         {
             var funcionario = servico.ObterTodos<Funcionario>().Where(x => x.Cpf == dto.Cpf);
+            var empresa = servico.Obter<Empresa>(dto.EmpresaId);
             if (funcionario.Count() == 0)
             {
-                return View("AddFuncionarioNaoCadastrado",new {EmpresaId = dto.EmpresaId,Cpf = dto.Cpf });
+                return View("AddFuncionarioNaoCadastrado",new FuncionarioNaoCadastradoDto{ Empresa = empresa,Cpf = dto.Cpf });
             }
             else
             {
@@ -47,22 +48,17 @@ namespace PontoEletronico.Controllers
 
 
         [HttpGet]
-        public IActionResult AddFuncionarioNaoCadastrado(int EmpresaId,string cpf)
+        public IActionResult AddFuncionarioNaoCadastrado(FuncionarioNaoCadastradoDto dto)
         {
-            var empresa = servico.Obter<Empresa>(EmpresaId);
-            Funcionario funcionario = new Funcionario
-            {
-                //Empresa = empresa,
-                Cpf = cpf
-            };
-            return View(funcionario);
+
+            return View(dto);
         }
 
-        [HttpPost]
-        public IActionResult AddFuncionarioNaoCadastrado(Funcionario funcionario)
-        {
-            return View();
-        }
+        //[HttpPost]
+        //public IActionResult AddFuncionarioNaoCadastrado(FuncionarioNaoCadastradoDto funcionario)
+        //{
+        //    return View();
+        //}
 
         [HttpGet]
         public IActionResult AddFuncionarioCadastrado(Funcionario funcionario)

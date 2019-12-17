@@ -9,6 +9,6 @@ namespace PontoEletronico.Models.DTO
     {
         public int Id { get; set; }
         public string RazaoSocial { get; set; }
-        public List<FuncionarioDto> Funcionarios { get; set; }
+        public List<DadosContratacaoFuncionarioDto> DadosContratacaoFuncionarios { get; set; }
     }
 }
