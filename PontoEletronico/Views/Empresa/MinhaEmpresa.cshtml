@@ -1,13 +1,16 @@
 ﻿@model PontoEletronico.Models.DTO.MinhaEmpresaDto
 @{
     var parms = new Dictionary<string, string>
-    {
+{
         {"EmpresaId",Model.Id.ToString()}
     };
     ViewData["Title"] = "MinhaEmpresa";
 }
 
 <h1>@Model.RazaoSocial</h1>
+
+
+<hr />
 <p>
     <a asp-action="AddFuncionarioEmpresa" asp-controller="Funcionario" asp-all-route-data="parms" class="btn btn-primary">Adicionar Novo Funcionário</a>
 </p>

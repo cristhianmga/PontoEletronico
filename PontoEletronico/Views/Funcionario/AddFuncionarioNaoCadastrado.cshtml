@@ -1,6 +1,10 @@
 ﻿@model PontoEletronico.Models.DTO.FuncionarioNaoCadastradoDto
 @{
     ViewData["Title"] = "AddFuncionarioNãoCadastrado";
+    var parms = new Dictionary<string, string>()
+    {
+        {"id",Model.Empresa.Id.ToString()}
+    };
 }
 
 <h1>Adicionar Novo Funcionário</h1>
@@ -16,7 +20,7 @@
                 <h5>Funcionário</h5>
                 <div class="form-group">
                     <label asp-for="Cpf" class="control-label"></label>
-                    <input asp-for="Cpf" class="form-control" disabled />
+                    <input asp-for="Cpf" class="form-control" readonly />
                     <span asp-validation-for="Cpf" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -30,34 +34,51 @@
                 <h5>Empresa</h5>
                 <div class="form-group">
                     <label asp-for="Empresa.RazaoSocial" class="control-label"></label>
-                    <input asp-for="Empresa.RazaoSocial" class="form-control" disabled />
+                    <input asp-for="Empresa.RazaoSocial" class="form-control" readonly />
                     <span asp-validation-for="Empresa.RazaoSocial" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Empresa.Cnpj" class="control-label"></label>
-                    <input asp-for="Empresa.Cnpj" class="form-control" disabled />
+                    <input asp-for="Empresa.Cnpj" class="form-control" readonly />
                     <span asp-validation-for="Empresa.Cnpj" class="text-danger"></span>
                 </div>
             </div>
+
             <div class="form-group">
-                <input type="submit" value="Salvar Novo Funcionário" class="btn btn-primary" />
+                <h5>Informações Adicionais</h5>
+                <div class="form-group">
+                    <label asp-for="Cargo" class="control-label"></label>
+                    <input asp-for="Cargo" class="form-control" />
+                    <span asp-validation-for="Cargo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CargaHoraria" class="control-label"></label>
+                    <input asp-for="CargaHoraria" class="form-control" />
+                    <span asp-validation-for="CargaHoraria" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DataInicio" class="control-label"></label>
+                    <input asp-for="DataInicio" class="form-control" />
+                    <span asp-validation-for="DataInicio" class="text-danger"></span>
+                </div>
             </div>
 
 
-
             <div class="form-group">
-                <h5>Empresa</h5>
+                <h5>Informações de Login</h5>
                 <div class="form-group">
-                    <label asp-for="Empresa.RazaoSocial" class="control-label"></label>
-                    <input asp-for="Empresa.RazaoSocial" class="form-control" disabled />
-                    <span asp-validation-for="Empresa.RazaoSocial" class="text-danger"></span>
+                    <label asp-for="Email" class="control-label"></label>
+                    <input type="email" asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Empresa.Cnpj" class="control-label"></label>
-                    <input asp-for="Empresa.Cnpj" class="form-control" disabled />
-                    <span asp-validation-for="Empresa.Cnpj" class="text-danger"></span>
+                    <label asp-for="Senha" class="control-label"></label>
+                    <input type="password" asp-for="Senha" class="form-control" />
+                    <span asp-validation-for="Senha" class="text-danger"></span>
                 </div>
             </div>
+
+
             <div class="form-group">
                 <input type="submit" value="Salvar Novo Funcionário" class="btn btn-primary" />
             </div>
@@ -66,7 +87,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="MinhaEmpresa" asp-controller="Empresa" asp-all-route-data="parms">Back to List</a>
 </div>
 
 @section Scripts {

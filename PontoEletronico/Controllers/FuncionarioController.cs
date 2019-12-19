@@ -1,10 +1,14 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PontoEletronico.Data;
 using PontoEletronico.Models;
 using PontoEletronico.Models.DTO;
 using PontoEletronico.Servico.Base;
+using PontoEletronico.Servico.Interface;
+using PontoEletronico.Servico.Util;
 
 namespace PontoEletronico.Controllers
 {
@@ -12,10 +16,12 @@ namespace PontoEletronico.Controllers
     {
         private readonly BaseServico servico;
         private readonly IMapper _mapper;
-        public FuncionarioController(ApplicationDbContext ctx, IMapper mapper)
+        private readonly IFuncionarioServico _funcionarioServico;
+        public FuncionarioController(ApplicationDbContext ctx, IMapper mapper, IFuncionarioServico funcionarioServico)
         {
             servico = new BaseServico(ctx);
             _mapper = mapper;
+            _funcionarioServico = funcionarioServico;
         }
             
         public IActionResult Index()
@@ -24,14 +30,12 @@ namespace PontoEletronico.Controllers
         }
 
         [HttpGet]
-        [Route("funcionario-empresa")]
         public IActionResult AddFuncionarioEmpresa(int EmpresaId)
         {
             return View(new CpfEmpresaIdDto{EmpresaId = EmpresaId});
         }
 
         [HttpPost]
-        [Route("funcionario-empresa")]
         public IActionResult AddFuncionarioEmpresa(CpfEmpresaIdDto dto)
         {
             var funcionario = servico.ObterTodos<Funcionario>().Where(x => x.Cpf == dto.Cpf);
@@ -48,17 +52,32 @@ namespace PontoEletronico.Controllers
 
 
         [HttpGet]
-        public IActionResult AddFuncionarioNaoCadastrado(FuncionarioNaoCadastradoDto dto)
+        public IActionResult GetAddFuncionarioNaoCadastrado(FuncionarioNaoCadastradoDto dto)
         {
 
             return View(dto);
         }
 
-        //[HttpPost]
-        //public IActionResult AddFuncionarioNaoCadastrado(FuncionarioNaoCadastradoDto funcionario)
-        //{
-        //    return View();
-        //}
+        [HttpPost]
+        public async Task<IActionResult> AddFuncionarioNaoCadastrado(FuncionarioNaoCadastradoDto funcionario)
+        {
+
+            var retorno = await _funcionarioServico.SalvarUsuarioLogin(funcionario.Email, funcionario.Senha);
+            if (retorno.result.Errors.Any())
+            {
+                foreach (var error in retorno.result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return View();
+            }
+            else
+            {
+                var dados = await _funcionarioServico.SalvarFuncionarioNaoCadastrado(funcionario, (IdentityUser)retorno);
+                servico.Salvar<DadosContratacaoFuncionario>(dados);
+            }
+            return View("MinhaEmpresa");
+        }
 
         [HttpGet]
         public IActionResult AddFuncionarioCadastrado(Funcionario funcionario)
@@ -71,5 +90,17 @@ namespace PontoEletronico.Controllers
         //{
         //    return View();
         //}
+        public IActionResult ValidaCpf(string Cpf)
+        {
+            var resultado = Validacao.IsCpf(Cpf);
+            if (resultado)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json("CPF Inválido");
+            }
+        }
     }
 }

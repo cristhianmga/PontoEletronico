@@ -84,6 +84,7 @@ namespace PontoEletronico
             });
 
             services.AddSingleton<ITokenJwtServico, TokenJwtServico>();
+            services.AddTransient<IFuncionarioServico, FuncionarioServico>();
 
             // Ativa o uso do token como forma de autorizar o acesso
             // a recursos deste projeto

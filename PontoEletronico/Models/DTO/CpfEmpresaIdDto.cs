@@ -10,6 +10,8 @@ namespace PontoEletronico.Models.DTO
     public class CpfEmpresaIdDto
     {
         public int EmpresaId { get; set; }
+        [StringLength(11)]
+        [Remote("ValidaCpf", "Funcionario")]
         public string Cpf { get; set; }
     }
 }
