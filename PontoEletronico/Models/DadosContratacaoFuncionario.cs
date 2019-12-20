@@ -9,6 +9,8 @@ namespace PontoEletronico.Models
         public int Id { get; set; }
         [Required]
         public Empresa Empresa { get; set; }
+        public int EmpresaId { get; set; }
+        public int FuncionarioId { get; set; }
         [Required]
         public Funcionario Funcionario { get; set; }
         [Required]

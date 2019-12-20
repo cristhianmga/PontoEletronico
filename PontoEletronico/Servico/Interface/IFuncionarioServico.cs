@@ -12,5 +12,6 @@ namespace PontoEletronico.Servico.Interface
     {
         Task<DadosContratacaoFuncionario> SalvarFuncionarioNaoCadastrado(FuncionarioNaoCadastradoDto funcionario,IdentityUser user);
         Task<StatusSalvarLoginFuncionario> SalvarUsuarioLogin(string email, string senha);
+        Task<IdentityUser> GetIdentityUserByEmail(string email);
     }
 }

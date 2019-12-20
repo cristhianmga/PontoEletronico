@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
@@ -36,13 +37,21 @@ namespace PontoEletronico.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddFuncionarioEmpresa(CpfEmpresaIdDto dto)
+        public async Task<IActionResult> AddFuncionarioEmpresa(CpfEmpresaIdDto dto)
         {
             var funcionario = servico.ObterTodos<Funcionario>().Where(x => x.Cpf == dto.Cpf);
             var empresa = servico.Obter<Empresa>(dto.EmpresaId);
             if (funcionario.Count() == 0)
             {
-                return View("AddFuncionarioNaoCadastrado",new FuncionarioNaoCadastradoDto{ Empresa = empresa,Cpf = dto.Cpf });
+                var ident = await _funcionarioServico.GetIdentityUserByEmail(dto.Email);
+                if(ident == null)
+                {
+                    return View("AddFuncionarioNaoCadastrado", new FuncionarioNaoCadastradoDto { Empresa = empresa, Cpf = dto.Cpf });
+                }
+                else
+                {
+                    return View("AddFuncionarioNaoCadastrado", new FuncionarioNaoCadastradoDto { Empresa = empresa, Cpf = dto.Cpf,Email = ident.Email });
+                }
             }
             else
             {
@@ -50,33 +59,31 @@ namespace PontoEletronico.Controllers
             }
         }
 
-
-        [HttpGet]
-        public IActionResult GetAddFuncionarioNaoCadastrado(FuncionarioNaoCadastradoDto dto)
-        {
-
-            return View(dto);
-        }
-
         [HttpPost]
         public async Task<IActionResult> AddFuncionarioNaoCadastrado(FuncionarioNaoCadastradoDto funcionario)
         {
-
-            var retorno = await _funcionarioServico.SalvarUsuarioLogin(funcionario.Email, funcionario.Senha);
-            if (retorno.result.Errors.Any())
+            StatusSalvarLoginFuncionario retorno = new StatusSalvarLoginFuncionario();
+            if(funcionario.Senha == null)
             {
-                foreach (var error in retorno.result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
-                return View();
+                retorno.user = await _funcionarioServico.GetIdentityUserByEmail(funcionario.Email);
             }
             else
             {
-                var dados = await _funcionarioServico.SalvarFuncionarioNaoCadastrado(funcionario, (IdentityUser)retorno);
-                servico.Salvar<DadosContratacaoFuncionario>(dados);
+                retorno = await _funcionarioServico.SalvarUsuarioLogin(funcionario.Email, funcionario.Senha);
+                if (retorno.result.Errors.Any())
+                {
+                    foreach (var error in retorno.result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    return View(funcionario);
+                }
             }
-            return View("MinhaEmpresa");
+
+            var dados = await _funcionarioServico.SalvarFuncionarioNaoCadastrado(funcionario, retorno.user);
+            servico.Salvar<DadosContratacaoFuncionario>(dados);
+
+            return RedirectToAction("MinhaEmpresa","Empresa",new { EmpresaId = dados.Empresa.Id });
         }
 
         [HttpGet]

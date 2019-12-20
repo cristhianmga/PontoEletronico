@@ -18,6 +18,7 @@ namespace PontoEletronico.Models
         [Required]
         [Display(Name = "CPF")]
         public string Cpf { get; set; }
+        public string IdentityUserId { get; set; }
         [Display(Name = "Identity")]
         [Required]
         public IdentityUser IdentityUser { get; set; }

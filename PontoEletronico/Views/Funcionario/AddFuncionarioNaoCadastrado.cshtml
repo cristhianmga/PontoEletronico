@@ -35,6 +35,7 @@
                 <div class="form-group">
                     <label asp-for="Empresa.RazaoSocial" class="control-label"></label>
                     <input asp-for="Empresa.RazaoSocial" class="form-control" readonly />
+                    <input type="hidden" asp-for="Empresa.Id" class="form-control" />
                     <span asp-validation-for="Empresa.RazaoSocial" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -63,20 +64,38 @@
                 </div>
             </div>
 
-
-            <div class="form-group">
-                <h5>Informações de Login</h5>
+            @if (Model.Email == null)
+            {
                 <div class="form-group">
-                    <label asp-for="Email" class="control-label"></label>
-                    <input type="email" asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
+                    <h5>Informações de Login</h5>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input type="email" asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Senha" class="control-label"></label>
+                        <input type="password" asp-for="Senha" class="form-control" />
+                        <span asp-validation-for="Senha" class="text-danger"></span>
+                    </div>
                 </div>
+            }
+            else
+            {
                 <div class="form-group">
-                    <label asp-for="Senha" class="control-label"></label>
-                    <input type="password" asp-for="Senha" class="form-control" />
-                    <span asp-validation-for="Senha" class="text-danger"></span>
+                    <h5>Informações de Login</h5>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input type="email" asp-for="Email" class="form-control" readonly/>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Senha" class="control-label"></label>
+                        <input type="password" asp-for="Senha" class="form-control" disabled/>
+                        <span asp-validation-for="Senha" class="text-danger"></span>
+                    </div>
                 </div>
-            </div>
+            }
 
 
             <div class="form-group">

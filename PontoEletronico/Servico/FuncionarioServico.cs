@@ -37,19 +37,24 @@ namespace PontoEletronico.Servico
                 user = user,
                 result = result
             };
-    }
+        }
+
+        public async Task<IdentityUser> GetIdentityUserByEmail(string email)
+        {
+            return await _userManager.FindByEmailAsync(email);
+        }
 
         private async Task<DadosContratacaoFuncionario> CriarDadosContratacaoFuncionario(FuncionarioNaoCadastradoDto func,IdentityUser user)
         {
             var dados = new DadosContratacaoFuncionario
             {
-                Empresa = func.Empresa,
+                EmpresaId = func.Empresa.Id,
                 CargaHoraria = func.CargaHoraria,
                 Cargo = func.Cargo,
                 DataInicio = func.DataInicio,
                 Funcionario = new Funcionario
                 {
-                    IdentityUser = user,
+                    IdentityUserId = user.Id,
                     Cpf = func.Cpf,
                     Nome = func.Nome
                 }

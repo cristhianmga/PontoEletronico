@@ -13,5 +13,8 @@ namespace PontoEletronico.Models.DTO
         [StringLength(11)]
         [Remote("ValidaCpf", "Funcionario")]
         public string Cpf { get; set; }
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
     }
 }
