@@ -63,6 +63,7 @@ namespace PontoEletronico.Controllers
         public async Task<IActionResult> AddFuncionarioNaoCadastrado(FuncionarioNaoCadastradoDto funcionario)
         {
             StatusSalvarLoginFuncionario retorno = new StatusSalvarLoginFuncionario();
+            var idEmpresa = funcionario.Empresa.Id;
             if(funcionario.Senha == null)
             {
                 retorno.user = await _funcionarioServico.GetIdentityUserByEmail(funcionario.Email);
@@ -83,7 +84,7 @@ namespace PontoEletronico.Controllers
             var dados = await _funcionarioServico.SalvarFuncionarioNaoCadastrado(funcionario, retorno.user);
             servico.Salvar<DadosContratacaoFuncionario>(dados);
 
-            return RedirectToAction("MinhaEmpresa","Empresa",new { EmpresaId = dados.Empresa.Id });
+            return RedirectToAction("MinhaEmpresa","Empresa",new { id = idEmpresa });
         }
 
         [HttpGet]

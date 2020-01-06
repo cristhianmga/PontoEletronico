@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PontoEletronico.Data;
 using PontoEletronico.Models;
 using PontoEletronico.Models.DTO;
@@ -67,7 +68,7 @@ namespace PontoEletronico.Controllers
         [Authorize]
         public IActionResult MinhaEmpresa(int id)
         {
-            var empresa = servico.Obter<Empresa>(id,new string[] { "DadosContratacaoFuncionarios.Funcionario" });
+            var empresa = servico.ObterTodos<Empresa>().Where(x => x.Id == id).Include(y => y.DadosContratacaoFuncionarios).ThenInclude(z => z.Funcionario).FirstOrDefault();
             var minhaEmpresa = _mapper.Map<MinhaEmpresaDto>(empresa);
 
             return View("MinhaEmpresa",minhaEmpresa);
